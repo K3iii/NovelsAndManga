@@ -1,0 +1,32 @@
+﻿@model NovelsMangaGenreView
+
+
+<div class="container">
+    <div class="row">
+        @foreach (var obj in Model.NovelsPage)
+        {
+            <div class="col-3">
+                <div class=" text-center">
+                    <a asp-area="novel" asp-controller="Novel" asp-action="Index" asp-route-novelId="@obj.NovelsId">
+                        <img src="~/@obj.ImgUrl" class="rounded" width="" height="260px"/>
+                    </a>
+                </div>
+                <div class="p-2 w-100">
+                    <h5>@obj.NovelsName</h5>
+                    @foreach (var chapters in Model.Chapters.Where(u => u.NovelsId == obj.NovelsId).OrderByDescending(u => u.chapterNum).Take(3))
+                    {
+                        <div class="rounded border">
+                            <a asp-area="novel" asp-controller="Novel" asp-action="Chapter" asp-route-novelId="@obj.NovelsId" asp-route-chapterId="@chapters.chapterNum">
+                                <span>Chapter @chapters.chapterNum</span>
+                            </a>
+                            </div>
+                    }
+
+                        
+                </div>
+                    
+            </div>
+
+        }
+    </div>
+</div>

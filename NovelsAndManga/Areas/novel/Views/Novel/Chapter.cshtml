@@ -1,0 +1,38 @@
+﻿@model MangaNovelChapterView
+
+<div class="container">
+    <div class="text-center">
+
+        <div class="d-flex justify-content-center">
+                @if (@Model.prevChapter != 0)
+                {
+                <div class="rounded border"  >
+                        <a asp-action="Chapter" asp-route-novelId="@Model.novelChapter.NovelsId" asp-route-chapterId="@Model.prevChapter">
+                        <button class="rounded" style="width: 100px;">Previous</button>
+                        </a>
+                    </div>
+                
+                }
+            <div class="rounded border" width="150px">
+                <a asp-area="novel" asp-controller="Novel" asp-action="Index" asp-route-novelId="@Model.novelChapter.NovelsId">
+                        <button class="rounded" style="width: 100px;">
+                            <i class="bi bi-house-door-fill"></i>Home
+                        </button>
+                    </a>
+                </div>
+            <div class="rounded border" width="150px">
+                    @if (@Model.nextChapter != 0)
+                    {
+                    <a asp-action="Chapter" asp-route-novelId="@Model.novelChapter.NovelsId" asp-route-chapterId="@Model.nextChapter">
+                        <button class="rounded" style="width: 100px;">Next</button>
+                        </a>
+                    }
+                </div>
+        </div>
+    </div>
+    <div class="">
+        @Html.Raw(Model.novelChapter.chapterContent);
+    </div>
+
+</div>
+

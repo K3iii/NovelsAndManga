@@ -1,0 +1,35 @@
+﻿@model NovelsModels
+
+
+<form method="post">
+    <input asp-for="NovelsId" hidden />
+    <div class="border mt-4 p-3">
+        <div class="row pb-2 ps-0">
+            <h2>Create New Novel</h2>
+        </div>
+
+        <div class="mb-3 row">
+            <label asp-for="NovelsName">Novel Title</label>
+            <input asp-for="NovelsName" type="text" class="form-control" />
+            <label asp-for="NovelsType">Novels Type</label>
+            <input asp-for="NovelsType" type="text" class="form-control" />
+            @* <label asp-for="@Model.NewNovel.NovelGenres">Genre</label> *@
+            
+           
+            <label asp-for="NovelsSummary">Novel Summary</label>
+            <textarea asp-for="NovelsSummary" class="form-control"></textarea>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-12 col-md-6">
+                <button class="btn btn-primary form-control" type="submit">Create Genre</button>
+            </div>
+            <div class="col-12 col-md-6">
+                <button asp-controller="AdminPanel" asp-action="Index" class="btn btn-secondary form-control border">Back to Admin Page</button>
+            </div>
+        </div>
+
+
+
+    </div>
+</form>

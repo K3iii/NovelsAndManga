@@ -1,0 +1,15 @@
+﻿@model NovelsMangaGenreView
+
+<div class="container">
+
+    @foreach (var novel in Model.NovelsPage)
+    {
+        if (novel.NovelsName == "long summary")
+        {
+            @Html.Raw(@novel.NovelsSummary);
+        }
+    }
+</div>
+
+
+

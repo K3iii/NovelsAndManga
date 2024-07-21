@@ -1,0 +1,79 @@
+﻿@model NovelsMangaGenreView
+
+<div class="container">
+    @foreach (var obj in Model.NovelsPage)
+    {
+        <div class="bg-white rounded-4 shadow">
+            <div class="row p-3">
+                <div class="col-md-2 text-center col-12">
+                    <div class="border-primary">
+                        <img src="~/@obj.ImgUrl" class="img-fluid align-middle shadow" width="200px" height="auto" />
+                    </div>
+                </div>
+                <div class="col-md-8 col-12 text-sm-start text-center">
+                    <div class="seriesTitle border-bottom">
+                        <h1 class="seriesTitle">@obj.NovelsName</h1>
+                    </div>
+                    <div class="seriesBasicInfo mb-2 pt-1 pb-1 border-bottom">
+                        Status: <span>Ongoing</span>
+                    </div>
+                    <div class="seriesGenre pb-2 border-bottom">
+                        @foreach (var genreId in Model.SelectedGenreIds)
+                        {
+                            @foreach(var genreName in Model.Genre)
+                            {
+                                if(@genreId == @genreName.GenreId)
+                                {
+                                    <span class="bg-primary rounded p-1 text-light fs-6">@genreName.GenreTitle</span>
+                                }
+                            }
+                        }
+                    </div>
+                    <div class="mt-4 border-bottom">
+                        @Html.Raw(@obj.NovelsSummary)
+                    </div>
+                    <div class="mt-2">
+                        @if (Model.Chapters.Count != 0)
+                        {
+                            <a asp-action="Chapter" asp-route-novelId="@obj.NovelsId" asp-route-chapterId="@Model.Chapters.First().chapterNum">
+                                <button class="btn border border-primary p-2 rounded">First Chapter</button>
+                            </a>
+                            <a asp-action="Chapter" asp-route-novelId="@obj.NovelsId" asp-route-chapterId="@Model.Chapters.Last().chapterNum">
+                                <button class="btn border border-primary p-2 rounded">Latest Chapter</button>
+                            </a>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+
+    <div class="seriesChaptersSection p-3 bg-white rounded-4 mt-2 shadow ">
+        <h4>Chapters List</h4>
+        @if(Model.Chapters.Count == 0)
+        {
+            <h3 class="text-center">NO Chapters</h3>
+        }
+        else
+        {
+            <div class="chapterList overflow-auto">
+                <ul>
+                        @if(Model.Chapters != null)
+                        {
+                            @foreach (var chapters in Model.Chapters)
+                            {
+                                <a asp-action="Chapter" asp-route-novelId="@obj.NovelsId" asp-route-chapterId="@chapters.chapterNum">
+
+                                <li class="rounded border p-2 mb-2">Chapter @chapters.chapterNum</li>
+                                </a>
+                            }
+                        }
+                    
+
+                </ul>
+            </div>
+            
+        }
+    </div>
+    }
+</div>

@@ -1,0 +1,57 @@
+﻿@model NovelsGenreView
+
+
+<form method="post">
+    <div class="border mt-4 p-3">
+        <div class="row pb-2 ps-0">
+            <h2>Create New Novel</h2>
+        </div>
+
+        <div class="mb-3 row">
+            <label asp-for="NewNovel.NovelsName">Novel Title</label>
+            <input asp-for="NewNovel.NovelsName" type="text" class="form-control" />
+            <label asp-for="NewNovel.NovelsType">Novels Type</label>
+            <input asp-for="NewNovel.NovelsType" type="text" class="form-control" />
+            @* <label asp-for="@Model.NewNovel.NovelGenres">Genre</label> *@
+            <label>Genre</label>
+            <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
+                @if(Model.Genre != null)
+                {
+                    @foreach(var obj in Model.Genre)
+                    {
+                        @* <input name="SelectedGenre" value="@obj.GenreId" id="@obj.GenreTitle-@obj.GenreId" type="checkbox" class="btn-check" autocomplete="off" />
+                        <label for="@obj.GenreTitle-@obj.GenreId" class="btn btn-outline-primary">@obj.GenreTitle</label> *@
+                        <input type="checkbox" name="SelectedGenreIds" value="@obj.GenreId" class="btn-check" autocomplete="off" id="@obj.GenreId" />
+                        <label class="btn btn-outline-primary" for="@obj.GenreId">@obj.GenreTitle</label>
+                    }
+                }
+
+                
+            </div>
+            <label asp-for="NewNovel.NovelsSummary">Novel Summary</label>
+            <textarea asp-for="NewNovel.NovelsSummary" class="form-control"></textarea>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-12 col-md-6">
+                <button class="btn btn-primary form-control" type="submit">Create Genre</button>
+            </div>
+            <div class="col-12 col-md-6">
+                <button asp-controller="AdminPanel" asp-action="Index" class="btn btn-secondary form-control border">Back to Admin Page</button>
+            </div>
+        </div>
+
+
+
+    </div>
+</form>
+
+@section Scripts {
+    <script>
+        tinymce.init({
+            selector: 'textarea',
+            plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount',
+            toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
+        });
+    </script>
+}

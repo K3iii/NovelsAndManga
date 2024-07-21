@@ -1,0 +1,82 @@
+﻿@model NovelsGenreView
+
+
+<form method="post" enctype="multipart/form-data">
+    <input asp-for="NewNovel.NovelsId" hidden />
+    <input asp-for="NewNovel.ImgUrl" hidden />
+    <div class="border mt-4 p-3">
+        <div class="row pb-2 ps-0">
+            @if(Model.NewNovel.NovelsId == 0)
+            {
+                <h2>Add Novel</h2>
+            }
+            else
+            {
+                <h2>Update Novel</h2>
+            }
+            @* <h2>@(Model.NewNovel.NovelsId == 0 ? "Create New" : "Update") Novel</h2> *@
+        </div>
+
+        <div class="mb-3 row">
+            <label class="mt-4" asp-for="NewNovel.NovelsName">Novel Title</label>
+            <input asp-for="NewNovel.NovelsName" type="text" class="form-control shadow" />
+            <label class="mt-4">Novel Image Banner</label>
+            <input type="file" name="file" class="form-control shadow" />
+            <label class="mt-4" asp-for="NewNovel.seriesStatus">Status</label>
+            <select asp-for="NewNovel.seriesStatus" class="form-control shadow">
+                <option value="Ongoing">OnGoing</option>
+                <option value="Complete">Complete</option>
+                <option value="Haitus">Haitus</option>
+            </select>
+            <label class="mt-4" asp-for="NewNovel.NovelsType">Novel Type</label>
+            <select asp-for="NewNovel.NovelsType" class="form-control shadow">
+                <option value="KR">Web Novel (KR)</option>
+                <option value="CN">Web Novel (CN)</option>
+                <option value="JP">Web Novel (JP)</option>
+            </select>
+            <label class="mt-4" asp-for="NewNovel.seriesAuthor">Author Name</label>
+            <input asp-for="NewNovel.seriesAuthor" type="text" class="form-control shadow" />
+            @* <input asp-for="NewNovel.NovelsType" type="text" class="form-control shadow" /> *@
+            @* <label asp-for="@Model.NewNovel.NovelGenres">Genre</label> *@
+            <label class="mt-4">Genre</label>
+            <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
+                @if(Model.Genre != null)
+                {
+                    @foreach(var obj in Model.Genre)
+                    {
+                        @* <input name="SelectedGenre" value="@obj.GenreId" id="@obj.GenreTitle-@obj.GenreId" type="checkbox" class="btn-check" autocomplete="off" />
+                        <label for="@obj.GenreTitle-@obj.GenreId" class="btn btn-outline-primary">@obj.GenreTitle</label> *@
+                        <input type="checkbox" name="SelectedGenreIds" value="@obj.GenreId" class="btn-check" autocomplete="off" id="@obj.GenreId" @(Model.SelectedGenreIds.Contains(obj.GenreId) ? "checked" : "") />
+                        <label class="btn btn-sm btn-outline-primary" for="@obj.GenreId">@obj.GenreTitle</label>
+                    }
+                }
+
+                
+            </div>
+            <label class="mt-4" asp-for="NewNovel.NovelsSummary">Novel Summary</label>
+            <textarea asp-for="NewNovel.NovelsSummary" class="form-control"></textarea>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-12 col-md-6">
+                <button class="btn btn-primary form-control" type="submit">@(Model.NewNovel.NovelsId != 0 ? "Update " + Model.NewNovel.NovelsName : "Create") Novel</button>
+            </div>
+            <div class="col-12 col-md-6">
+                <button asp-area="AdminPanel" asp-controller="novelpanel" asp-action="Index" class="btn btn-secondary form-control border">Back to Admin Page</button>
+            </div>
+        </div>
+
+
+
+    </div>
+</form>
+
+@section Scripts {
+    <script>
+        tinymce.init({
+            selector: 'textarea',
+            plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount',
+            toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
+        });
+    </script>
+}

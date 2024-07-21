@@ -1,0 +1,28 @@
+﻿@model Genre
+
+
+<form method="post">
+    <input asp-for="GenreId" hidden />
+    <div class="border mt-4 p-3">
+        <div class="row pb-2 ps-0">
+            <h2>Create New Genre</h2>
+        </div>
+
+        <div class="mb-3 row">
+            <label asp-for="GenreTitle">Genre Name</label>
+            <input asp-for="GenreTitle" type="text" class="form-control" />
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-12 col-md-6">
+                <button class="btn btn-primary form-control" type="submit">Update</button>
+            </div>
+            <div class="col-12 col-md-6">
+                <button asp-controller="GenrePanel" asp-action="Index" class="btn btn-secondary form-control border">Back to Admin Page</button>
+            </div>
+        </div>
+
+
+
+    </div>
+</form>

@@ -1,0 +1,95 @@
+﻿@model List<Genre>
+
+<div class="container">
+    Admin Panel
+    <div class="row">
+        <div class="col-4">
+            <a asp-controller="NovelPanel" asp-action="Create"><button class="btn btn-primary w-100">Add New Novel</button></a>
+        </div>
+        <div class="col-4">
+            <a asp-controller="NovelPanel" asp-action="Create"><button class="btn btn-primary w-100">Add New Chapters</button></a>
+        </div>
+        <div class="col-4">
+            <a asp-controller="GenrePanel" asp-action="CreateGenre"><button class="btn btn-primary w-100">Add New Genre</button></a>
+        </div>
+    </div>
+
+    <div class="mt-5">
+        <h1>Manga/Novels Main Pages</h1>
+    </div>
+
+    <div class="mt-5">
+        <h1>Manga/Novels Chapters Pages</h1>
+        @if(TempData["msg"] == null)
+        {
+            <h1>No Data</h1>
+        }
+        else
+        {
+            <h1>With Data</h1>
+        }
+    </div>
+
+    <div class="mt-5">
+        <h1>Genre List</h1>
+        <table id="tables" class="table-bordered table table-stripped">
+            <thead>
+                <tr>
+                    <th>Genre Name</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null)
+                {
+                    @foreach (var obj in Model)
+                    {
+
+                        <tr>
+                            <td class="hidden"></td>
+                            <td>@obj.GenreTitle</td>
+                            <td>
+                                <div class="btn-group" srole="group">
+                                    <a asp-controller="GenrePanel" asp-action="Edit" asp-route-id="@obj.GenreId" class="btn btn-primary mx-2"> <i class="bi bi-pencil-square"></i> Edit</a>
+                                    @* <form method="post" asp-controller="AdminPanel" asp-action="Delete">
+                                        <input asp-for="@obj.GenreId" hidden /> *@
+                                    <button id="deleteBtn" data-id="@obj.GenreId" class="btn btn-danger mx-2"> <i class="bi bi-trash"></i> Delete</button>
+                                    @* </form> *@
+                                </div>
+
+                            </td>
+                        </tr>
+
+                    }
+                }
+                
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script>
+        let delBtn = document.querySelectorAll("#deleteBtn");
+        
+        $(document).ready(function(){
+            $(delBtn).on("click", function(){
+                let btnId = $(this).data("id");
+                var row = $(this).closest('tr');
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("DeletePost")',
+                    data: {id: btnId},
+                    success: function(response){
+                        if (response == true) {
+                            row.remove();
+                            console.log("Successfully Deleted");
+                        }
+                    }
+
+                });
+            });
+        });
+    </script>
+}

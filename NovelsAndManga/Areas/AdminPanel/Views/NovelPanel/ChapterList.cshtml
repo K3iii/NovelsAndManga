@@ -1,0 +1,89 @@
+﻿@model NovelsChapter
+
+@{
+    int NovelsId = (int)ViewData["NovelsId"];
+}
+<div class="container">
+    <div class="row">
+        <div class="col-6">
+            <a asp-controller="NovelPanel" asp-action="UpsertChapter" asp-route-novelid="@NovelsId"><button class="btn btn-primary w-100">Add New Chapters</button></a>
+        </div>
+        <div class="col-6">
+            <a asp-controller="AdminPanel" asp-action="CreateGenre"><button class="btn btn-primary w-100">Add New Genre</button></a>
+        </div>
+    </div>
+    <div>
+        <table id="chapterTable" class="display">
+            <thead>
+                <tr>
+                    <th>
+                        chapterNum
+                    </th>
+                    <th>
+                        novelsId
+                    </th>
+                    <th>
+                        chapterNum
+                    </th>
+                    <th>
+                        novelsId
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="https://cdn.datatables.net/v/bs5/dt-2.0.8/datatables.min.js"></script>
+    <script>
+        var dataTable;
+        $(document).ready(function () {
+            dataTable = $('#chapterTable').DataTable({
+                "ajax": {
+                    "url": '@Url.Action("GetChapter", new { id = "__ID__" })'.replace("__id__", @NovelsId),
+                    "type": "GET"
+                },
+                
+                "columns": [
+                    { data: 'chapterNum' },
+                    { data: "novelsId" },
+                    { data: 'dateCreated' },
+                    {
+                        data: 'novelChapterId',
+                        "render": function(data){
+                            return '<a href="/adminpanel/novelpanel/UpsertChapter/' + data + '" class="btn btn-primary mx-2"> <i class="bi bi-pencil-square"></i> Edit</a><button id="deleteBtn" data-id="' + data + '" data-istype="chapter" class="btn btn-danger mx-2"> <i class="bi bi-trash"></i> Delete</button>'
+                        }
+                    }
+                ]
+            });
+        });
+
+
+
+        let delBtn = document.querySelectorAll("#deleteBtn");
+
+        $(document).on("click", "#deleteBtn", function () {
+
+            console.log("testifclicked")
+            let btnId = $(this).data("id");
+            let isType = $(this).data("istype");
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("DeletePost")',
+                    data: { id: btnId, isType: isType },
+                    success: function (response) {
+                        dataTable.ajax.reload();
+                        console.log(response.message)
+                    }
+
+                });
+            
+        });
+    </script>
+
+
+
+}

@@ -1,0 +1,106 @@
+﻿@model NovelsMangaGenreView
+
+<div class="container">
+    Admin Panel
+    <div class="row">
+        <div class="col-6">
+            <a asp-area="AdminPanel" asp-controller="NovelPanel" asp-action="UpsertNovel"><button class="btn btn-primary w-100">Add New Novel</button></a>
+        </div>
+        <div class="col-6">
+            <a asp-controller="AdminPanel" asp-action="CreateGenre"><button class="btn btn-primary w-100">Add New Genre</button></a>
+        </div>
+    </div>
+
+    <div class="mt-5">
+        <h1>Novel</h1>
+        <table id="tables" class="table-bordered table table-stripped">
+            <thead>
+                <tr>
+                    <th>Novel Name</th>
+                    <th>Genre</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null)
+                {
+                    @foreach (var obj in Model.NovelsPage)
+                    {
+                        var novelsName = @obj.NovelsName.Replace(" ", "-");
+
+                        <tr>
+                            <td class="align-middle">
+
+                                <a asp-area="novel" asp-controller="Novel" asp-action="Index" asp-route-novelId="@obj.NovelsId" class="btn btn-secondary mx-2">
+                                    @obj.NovelsName</a>
+                                
+                            </td>
+                            
+                            <td class="align-middle">
+                                @foreach(var genre in Model.novelsGenres)
+                                {
+                                    @if(genre.NovelsId == obj.NovelsId)
+                                    {
+                                        @foreach(var genreName in Model.Genre)
+                                        {
+                                            @if(genre.GenreId == genreName.GenreId)
+                                            {
+                                                @* <a href="" class="btn btn-primary">@genreName.GenreTitle</a> *@
+                                                <span class="border border-primary rounded-3 p-1">@genreName.GenreTitle</span>
+                                            }
+                                        }
+                                    }
+                                }
+                            </td>
+                            <td>
+                                <div class="btn-group" srole="group">
+                                    <a asp-controller="NovelPanel" asp-action="ChapterList" asp-route-id="@obj.NovelsId" class="btn btn-primary mx-2"> <i class="bi bi-file-plus"></i> Add Chapter</a>
+                                    <a asp-controller="NovelPanel" asp-action="UpsertNovel" asp-route-id="@obj.NovelsId" class="btn btn-primary mx-2"> <i class="bi bi-pencil-square"></i> Edit</a>
+                                    <button id="deleteBtn" data-id="@obj.NovelsId" data-istype="mainPage" class="btn btn-danger mx-2"> <i class="bi bi-trash"></i> Delete</button>
+                                </div>
+
+                            </td>
+                        </tr>
+
+                    }
+                }
+
+            </tbody>
+        </table>
+    </div>
+
+
+</div>
+
+
+@section Scripts {
+    <script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
+    <script>
+        
+        let delBtn = document.querySelectorAll("#deleteBtn");
+        
+        $(document).ready(function(){
+            $(delBtn).on("click", function(){
+                let btnId = $(this).data("id");
+                var row = $(this).closest('tr');
+                let isType = $(this).data("istype");
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("DeletePost")',
+                    data: { id: btnId, isType: isType},
+                    success: function(response){
+                        if (response == true) {
+                            row.remove();
+                            console.log("Successfully Deleted");
+                        }
+                    }
+
+                });
+            });
+        });
+
+        $(document).ready(function () {
+            $('#tables').DataTable();
+        });
+    </script>
+}

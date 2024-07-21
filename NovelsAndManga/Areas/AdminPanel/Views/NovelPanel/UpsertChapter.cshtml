@@ -1,0 +1,44 @@
+﻿@model NovelsChapter
+
+@* @{
+    int novelid = (int)ViewData["novelid"];
+} *@
+
+<form method="post" enctype="multipart/form-data">
+    <input asp-for="@Model.novelChapterId" type="number" hidden />
+    <div class="border mt-4 p-3">
+        <div class="row pb-2 ps-0">
+        </div>
+        <div class="mb-3 row">
+            
+            <input asp-for="NovelsId" type="number" value="@Model.NovelsId" />
+            <label class="mt-4" asp-for="@Model.chapterNum">Chapter Number</label>
+            <input asp-for="@Model.chapterNum" type="number" class="form-control shadow" />
+            <label class="mt-4" asp-for="@Model.chapterContent">Novel Summary</label>
+            <textarea asp-for="@Model.chapterContent" class="form-control"></textarea>
+            <input asp-for="@Model.dateCreated" type="datetime" value="@DateTime.Now."  />
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-12 col-md-6">
+                <button class="btn btn-primary form-control" type="submit"> @(Model.novelChapterId != 0 ? "Update " + Model.novelChapterId : "Create")  Novel</button>
+            </div>
+            <div class="col-12 col-md-6">
+                <button asp-area="AdminPanel" asp-controller="novelpanel" asp-action="Index" class="btn btn-secondary form-control border">Back to Admin Page</button>
+            </div>
+        </div>
+
+
+
+    </div>
+</form>
+
+@section Scripts {
+    <script>
+        tinymce.init({
+            selector: 'textarea',
+            plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount',
+            toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
+        });
+    </script>
+}

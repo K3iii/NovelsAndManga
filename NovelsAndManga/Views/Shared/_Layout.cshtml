@@ -1,0 +1,79 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - NovelsAndManga</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/NovelsAndManga.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap" rel="stylesheet">
+    <link href="https://cdn.datatables.net/v/dt/dt-2.0.8/datatables.min.css" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm bg-primary border-bottom box-shadow mb-3" data-bs-theme="dark">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">NovelsAndManga</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="Main" asp-controller="Home" asp-action="Novel">Novels</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="Main" asp-controller="Home" asp-action="Manga">Manga</a>
+                        </li>
+                        <li>
+                            @if (User.IsInRole(StaticDetails.Role_Admin))
+                            {
+                                
+                                <div class="collapse navbar-collapse" id="novelsAdminPage">
+                                    <ul class="navbar-nav">
+                                        <li class="nav-item dropdown">
+                                            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" asp-controller="Home" asp-action="Privacy">Novels Admin Page</a>
+                                            <ul class="bg-primary dropdown-menu border-0">
+                                                <li class="nav-item"><a class="nav-link" asp-area="AdminPanel" asp-controller="GenrePanel" asp-action="Index">Genre Panel</a></li>
+                                                <li class="nav-item"><a class="nav-link" asp-area="AdminPanel" asp-controller="NovelPanel" asp-action="Index">Novel Panel</a></li>
+                                                <li class="nav-item"><a class="nav-link" asp-area="AdminPanel" asp-controller="MangaPanel" asp-action="Index">Manga Panel</a></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </div>
+                            }
+
+                        </li>
+                    </ul>
+                   <partial name="_LoginPartial" />
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2024 - NovelsAndManga 
+        </div>
+    </footer>
+    <script src="https://cdn.tiny.cloud/1/ihh2hj69o4753irn85ezl6bo8d4rsus9gj5nigzha8sxw1i0/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    @* <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script> *@
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
